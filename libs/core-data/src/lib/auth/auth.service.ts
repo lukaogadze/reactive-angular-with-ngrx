@@ -32,7 +32,8 @@ export class AuthService {
         this.isAuthenticated$.next(token !== ''); // Could be more Robust
     }
 
-    getToken() {
+
+    private static getToken() {
         return localStorage.getItem('token');
     }
 }
