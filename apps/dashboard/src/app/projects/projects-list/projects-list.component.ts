@@ -4,30 +4,30 @@ import { Project } from '@workshop/core-data';
 import { LIST_ANIMATION } from './projects-list.animations';
 
 @Component({
-  selector: 'app-projects-list',
-  templateUrl: './projects-list.component.html',
-  styleUrls: ['./projects-list.component.scss'],
-  animations: [LIST_ANIMATION]
+    selector: 'app-projects-list',
+    templateUrl: './projects-list.component.html',
+    styleUrls: ['./projects-list.component.scss'],
+    animations: [LIST_ANIMATION]
 })
 export class ProjectsListComponent implements OnInit {
-  @Input() projects: Project[];
-  @Input() readonly = false;
-  @Output() selected = new EventEmitter();
-  @Output() deleted = new EventEmitter();
+    @Input() readonly projects!: Project[];
+    @Input() readonly = false;
+    @Output() selected = new EventEmitter();
+    @Output() deleted = new EventEmitter();
 
-  animationsDisabled = true;
+    animationsDisabled = true;
 
-  trackProject(index, project) {
-    return project.id;
-  }
+    trackProject(_: any, project: any) {
+        return project.id;
+    }
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.animationsDisabled = false;
-    }, 500)
-  }
+    ngOnInit() {
+        setTimeout(() => {
+            this.animationsDisabled = false;
+        }, 500);
+    }
 
-  prepareListState() {
-    return this.projects ? this.projects.length : 'pending';
-  }
+    prepareListState() {
+        return this.projects ? this.projects.length : 'pending';
+    }
 }

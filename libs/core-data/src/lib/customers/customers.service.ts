@@ -5,38 +5,39 @@ import { environment } from '@env/environment';
 import { Customer } from './customer.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CustomersService {
-  model = 'customers'
+    readonly model = 'customers';
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+    }
 
-  getUrl() {
-    return `${environment.apiEndpoint}${this.model}`;
-  }
+    getUrl() {
+        return `${environment.apiEndpoint}${this.model}`;
+    }
 
-  getUrlForId(id) {
-    return `${this.getUrl()}/${id}`;
-  }
+    getUrlForId(id: string) {
+        return `${this.getUrl()}/${id}`;
+    }
 
-  all() {
-    return this.http.get<Customer[]>(this.getUrl());
-  }
+    all() {
+        return this.http.get<Customer[]>(this.getUrl());
+    }
 
-  load(id) {
-    return this.http.get<Customer>(this.getUrlForId(id));
-  }
+    load(id: string) {
+        return this.http.get<Customer>(this.getUrlForId(id));
+    }
 
-  create(customer: Customer) {
-    return this.http.post(this.getUrl(), customer);
-  }
+    create(customer: Customer) {
+        return this.http.post(this.getUrl(), customer);
+    }
 
-  update(customer: Customer) {
-    return this.http.patch(this.getUrl(), customer);
-  }
+    update(customer: Customer) {
+        return this.http.patch(this.getUrl(), customer);
+    }
 
-  delete(customer: Customer) {
-    return this.http.delete(this.getUrlForId(customer.id));
-  }
+    delete(customer: Customer) {
+        return this.http.delete(this.getUrlForId(customer.id));
+    }
 }

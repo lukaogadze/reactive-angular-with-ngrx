@@ -4,35 +4,35 @@ import { environment } from '@env/environment';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  model = 'auth/login'
-  isAuthenticated$ = new BehaviorSubject(false);
+    readonly model: string = 'auth/login';
+    readonly isAuthenticated$ = new BehaviorSubject(false);
 
-  constructor(private http: HttpClient) {
-    this.setToken(this.getToken());
-  }
+    constructor(private http: HttpClient) {
+        this.setToken(AuthService.getToken()!);
+    }
 
-  getUrl() {
-    return `${environment.apiEndpoint}${this.model}`;
-  }
+    getUrl() {
+        return `${environment.apiEndpoint}${this.model}`;
+    }
 
-  login(email, password) {
-    return this.http.post(this.getUrl(), { email, password});
-  }
+    login(email: string, password: string) {
+        return this.http.post(this.getUrl(), { email, password });
+    }
 
-  logout() {
-    this.setToken('');
-  }
+    logout() {
+        this.setToken('');
+    }
 
-  // TOKEN
-  setToken(token) {
-    localStorage.setItem('token', token);
-    this.isAuthenticated$.next(token !== ''); // Could be more Robust
-  }
+    // TOKEN
+    setToken(token: string) {
+        localStorage.setItem('token', token);
+        this.isAuthenticated$.next(token !== ''); // Could be more Robust
+    }
 
-  getToken() {
-    return localStorage.getItem('token');
-  }
+    getToken() {
+        return localStorage.getItem('token');
+    }
 }
