@@ -1,14 +1,30 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { Customer, Project, ProjectsService, NotificationsService, CustomersService } from '@workshop/core-data';
+import {
+    Customer,
+    Project,
+    NotificationsService,
+    CustomersService
+} from '@workshop/core-data';
+import { select, Store } from '@ngrx/store';
+import { AppState } from '../../../../../libs/core-data/src/lib/state';
+import {
+    getProjectsSelector,
+    getSelectedProjectSelector
+} from '../../../../../libs/core-data/src/lib/state/projects/projects.selector';
+import {
+    CreateProjectAction, DeleteProjectAction, SelectProjectAction,
+    UpdateProjectAction
+} from '../../../../../libs/core-data/src/lib/state/projects/projects.actions';
+
 
 const emptyProject: Project = {
-    id: null,
+    id: undefined,
     title: '',
     details: '',
     percentComplete: 0,
     approved: false,
-    customerId: null
+    customerId: undefined
 };
 
 @Component({
@@ -17,43 +33,37 @@ const emptyProject: Project = {
     styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-    projects$: Observable<Project[]> | undefined;
+    projects$: Observable<ReadonlyArray<Project>> | undefined;
     customers$: Observable<Customer[]> | undefined;
-    currentProject: Project | undefined;
+    currentProject$: Observable<Project | undefined> | undefined;
 
-    constructor(
-        private projectsService: ProjectsService,
-        private customerService: CustomersService,
-        private ns: NotificationsService) {
+    constructor(private readonly _customerService: CustomersService,
+                private readonly _notificationsService: NotificationsService,
+                private readonly _store: Store<AppState>) {
     }
 
     ngOnInit() {
-        this.getProjects();
+        this.projects$ = this._store.pipe(select(getProjectsSelector));
+        this.currentProject$ = this._store.pipe(select(getSelectedProjectSelector));
         this.getCustomers();
         this.resetCurrentProject();
     }
 
     resetCurrentProject() {
-        this.currentProject = emptyProject;
+        this.currentProject$ = of(emptyProject);
     }
 
-    selectProject(project: any) {
-        this.currentProject = project;
+    selectProject(projectId: string) {
+        this._store.dispatch(new SelectProjectAction(projectId));
     }
 
-    cancel() {
-        this.resetCurrentProject();
-    }
 
     getCustomers() {
-        this.customers$ = this.customerService.all();
+        this.customers$ = this._customerService.all();
     }
 
-    getProjects() {
-        this.projects$ = this.projectsService.all();
-    }
 
-    saveProject(project: any) {
+    saveProject(project: any): void {
         if (!project.id) {
             this.createProject(project);
         } else {
@@ -61,31 +71,30 @@ export class ProjectsComponent implements OnInit {
         }
     }
 
-    createProject(project: any) {
-        this.projectsService.create(project)
-            .subscribe(() => {
-                this.ns.emit('Project created!');
-                this.getProjects();
-                this.resetCurrentProject();
-            });
+    createProject(project: Project): void {
+        this._store.dispatch(new CreateProjectAction(project));
+
+        // TODO: REFACTOR!
+        this._notificationsService.emit('Project created!');
+        this.resetCurrentProject();
+
+
     }
 
-    updateProject(project: any) {
-        this.projectsService.update(project)
-            .subscribe(() => {
-                this.ns.emit('Project saved!');
-                this.getProjects();
-                this.resetCurrentProject();
-            });
+    updateProject(project: Project): void {
+        this._store.dispatch(new UpdateProjectAction(project));
+
+        // TODO: REFACTOR!
+        this._notificationsService.emit('Project saved!');
+        this.resetCurrentProject();
     }
 
-    deleteProject(project: any) {
-        this.projectsService.delete(project)
-            .subscribe(() => {
-                this.ns.emit('Project deleted!');
-                this.getProjects();
-                this.resetCurrentProject();
-            });
+    deleteProject(projectId: string): void {
+        this._store.dispatch(new DeleteProjectAction(projectId));
+
+        // TODO: REFACTOR!
+        this._notificationsService.emit('Project deleted!');
+        this.resetCurrentProject();
     }
 }
 

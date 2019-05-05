@@ -1,8 +1,8 @@
 export interface Project {
-  id: string | null;
-  title: string;
-  details: string;
-  percentComplete: number;
-  approved: boolean;
-  customerId: string | null;
+    readonly id: string | undefined;
+    readonly title: string;
+    readonly details: string;
+    readonly percentComplete: number;
+    readonly approved: boolean;
+    readonly customerId: string | undefined;
 }

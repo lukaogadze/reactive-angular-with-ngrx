@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Effect } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/nx';
 import { map } from 'rxjs/operators';
 
@@ -10,20 +10,19 @@ import { CustomersState } from './customers.reducer';
 
 @Injectable()
 export class CustomersEffects {
-  @Effect()
-  loadCustomers$ = this.dataPersistence.fetch(CustomersActionTypes.LoadCustomers, {
-    run: (action: LoadCustomers, state: CustomersState) => {
-      return this.customersService.all().pipe(map((res: Customer[]) => new CustomersLoaded(res)))
-    },
+    constructor(private readonly _dataPersistence: DataPersistence<CustomersState>,
+                private readonly _customersService: CustomersService
+    ) {}
 
-    onError: (action: LoadCustomers, error) => {
-      console.error('Error', error);
-    }
-  });
+    @Effect()
+    loadCustomers$ = this._dataPersistence.fetch(CustomersActionTypes.LoadCustomers, {
+        run: () => {
+            return this._customersService.all().pipe(map((res: Customer[]) => new CustomersLoaded(res)));
+        },
 
-  constructor(
-    private actions$: Actions,
-    private dataPersistence: DataPersistence<CustomersState>,
-    private customersService: CustomersService
-  ) {}
+        onError: (_: LoadCustomers, error) => {
+            console.error('Error', error);
+        }
+    });
+
 }

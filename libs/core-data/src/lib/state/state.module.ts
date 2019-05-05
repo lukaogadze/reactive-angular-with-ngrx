@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NxModule } from '@nrwl/nx';
 
+import { StoreModule } from '@ngrx/store';
 import { reducers } from '.';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
 import { CustomersEffects } from './customers/customers.effects';
 
 @NgModule({
@@ -15,8 +15,8 @@ import { CustomersEffects } from './customers/customers.effects';
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({ maxAge: 10 }),
     EffectsModule.forRoot([
-      CustomersEffects
-    ]),
+       CustomersEffects
+     ]),
   ],
   declarations: []
 })
