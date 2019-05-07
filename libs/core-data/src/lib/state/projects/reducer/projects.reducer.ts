@@ -1,35 +1,37 @@
 import { ProjectsActions, ProjectsActionTypes } from '../projects.actions';
 import * as ProjectsStateMutators from "./projects-state.mutators";
 import { ProjectsState } from './projects-state';
-import { guid } from '../../../utils/guid';
+import { arrayToKeyValueStore, guid } from '../../../utils/helpers';
+
+const projectArr = [
+    {
+        id: guid(),
+        title: 'Project One',
+        details: 'This is a sample project',
+        percentComplete: 20,
+        approved: false,
+        customerId: undefined
+    },
+    {
+        id: guid(),
+        title: 'Project Two',
+        details: 'This is a sample project',
+        percentComplete: 40,
+        approved: false,
+        customerId: undefined
+    },
+    {
+        id: guid(),
+        title: 'Project Three',
+        details: 'This is a sample project',
+        percentComplete: 100,
+        approved: true,
+        customerId: undefined
+    }
+];
 
 const initialState: ProjectsState = {
-    projects: [
-        {
-            id: guid(),
-            title: 'Project One',
-            details: 'This is a sample project',
-            percentComplete: 20,
-            approved: false,
-            customerId: undefined
-        },
-        {
-            id: guid(),
-            title: 'Project Two',
-            details: 'This is a sample project',
-            percentComplete: 40,
-            approved: false,
-            customerId: undefined
-        },
-        {
-            id: guid(),
-            title: 'Project Three',
-            details: 'This is a sample project',
-            percentComplete: 100,
-            approved: true,
-            customerId: undefined
-        }
-    ],
+    projects: arrayToKeyValueStore(projectArr),
     selectedProjectId: undefined
 };
 

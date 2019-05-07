@@ -10,7 +10,7 @@ import { LIST_ANIMATION } from './projects-list.animations';
     animations: [LIST_ANIMATION]
 })
 export class ProjectsListComponent implements OnInit {
-    @Input() readonly projects!: ReadonlyArray<Project>;
+    @Input() readonly projects!: {[key: string]: Project | undefined};
     @Input() readonly: boolean | undefined;
     @Output() selected: EventEmitter<string>;
     @Output() deleted: EventEmitter<string>;

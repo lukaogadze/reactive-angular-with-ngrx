@@ -1,11 +1,28 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Project, ProjectsState } from '@workshop/core-data';
+import { keyValueStoreToArray } from '../../utils/helpers';
 
 const getProjectsFeatureState = createFeatureSelector<ProjectsState>('projects');
 
-export const getProjectsSelector = createSelector(
+
+const emptyProject: Project = {
+    id: undefined,
+    title: '',
+    details: '',
+    percentComplete: 0,
+    approved: false,
+    customerId: undefined
+};
+
+
+export const getProjectsKeyValueSelector = createSelector(
     getProjectsFeatureState,
     state => state.projects
+);
+
+export const getProjectArraySelector = createSelector(
+    getProjectsFeatureState,
+    (state) => keyValueStoreToArray(state.projects)
 );
 
 export const getSelectedProjectIdSelector = createSelector(
@@ -18,17 +35,14 @@ export const getSelectedProjectSelector = createSelector(
     getSelectedProjectIdSelector,
     (state, selectedProjectId) => {
         if (selectedProjectId) {
-            return state.projects.find(x => x.id === selectedProjectId);
+            const selectedProject = state.projects[selectedProjectId];
+            if (selectedProject) {
+                return selectedProject;
+            } else {
+                return emptyProject;
+            }
         } else {
 
-            const emptyProject: Project = {
-                id: undefined,
-                title: '',
-                details: '',
-                percentComplete: 0,
-                approved: false,
-                customerId: undefined
-            };
             return emptyProject;
         }
     }

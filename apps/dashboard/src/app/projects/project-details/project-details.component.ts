@@ -6,7 +6,7 @@ import { Customer, Project } from '@workshop/core-data';
     templateUrl: './project-details.component.html',
     styleUrls: ['./project-details.component.scss']
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent  {
     originalTitle: string | undefined;
     selectedProject: Project | undefined;
     @Output() readonly saved: EventEmitter<Project>;

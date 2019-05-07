@@ -9,14 +9,14 @@ import {
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../../../libs/core-data/src/lib/state';
 import {
-    getProjectsSelector,
+    getProjectArraySelector,
     getSelectedProjectSelector
 } from '../../../../../libs/core-data/src/lib/state/projects/projects.selector';
 import {
     CreateProjectAction, DeleteProjectAction, ResetSelectedProjectAction, SelectProjectAction,
     UpdateProjectAction
 } from '../../../../../libs/core-data/src/lib/state/projects/projects.actions';
-import { guid } from '../../../../../libs/core-data/src/lib/utils/guid';
+import { guid } from '../../../../../libs/core-data/src/lib/utils/helpers';
 
 
 
@@ -27,7 +27,7 @@ import { guid } from '../../../../../libs/core-data/src/lib/utils/guid';
     styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-    projects$: Observable<ReadonlyArray<Project>> | undefined;
+    projects$!: Observable<ReadonlyArray<Project>>;
     customers$: Observable<Customer[]> | undefined;
     currentProject$: Observable<Project | undefined> | undefined;
 
@@ -37,7 +37,7 @@ export class ProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.projects$ = this._store.pipe(select(getProjectsSelector));
+        this.projects$ = this._store.pipe(select(getProjectArraySelector));
         this.currentProject$ = this._store.pipe(select(getSelectedProjectSelector));
         this.getCustomers();
     }
