@@ -15,24 +15,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    CoreDataModule,
-    HttpClientModule,
-    LayoutModule,
-    NxModule.forRoot(),
-    FormsModule,
-    ReactiveFormsModule,
-    UiLoginModule,
-    UiToolbarModule,
-    MaterialModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        CoreDataModule,
+        HttpClientModule,
+        LayoutModule,
+        NxModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule,
+        UiLoginModule,
+        UiToolbarModule,
+        MaterialModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

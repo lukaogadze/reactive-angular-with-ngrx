@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable} from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import {
     Customer,
@@ -13,19 +13,13 @@ import {
     getSelectedProjectSelector
 } from '../../../../../libs/core-data/src/lib/state/projects/projects.selector';
 import {
-    CreateProjectAction, DeleteProjectAction, SelectProjectAction,
+    CreateProjectAction, DeleteProjectAction, ResetSelectedProjectAction, SelectProjectAction,
     UpdateProjectAction
 } from '../../../../../libs/core-data/src/lib/state/projects/projects.actions';
+import { guid } from '../../../../../libs/core-data/src/lib/utils/guid';
 
 
-const emptyProject: Project = {
-    id: undefined,
-    title: '',
-    details: '',
-    percentComplete: 0,
-    approved: false,
-    customerId: undefined
-};
+
 
 @Component({
     selector: 'app-projects',
@@ -46,11 +40,10 @@ export class ProjectsComponent implements OnInit {
         this.projects$ = this._store.pipe(select(getProjectsSelector));
         this.currentProject$ = this._store.pipe(select(getSelectedProjectSelector));
         this.getCustomers();
-        this.resetCurrentProject();
     }
 
     resetCurrentProject() {
-        this.currentProject$ = of(emptyProject);
+        this._store.dispatch(new ResetSelectedProjectAction());
     }
 
     selectProject(projectId: string) {
@@ -63,7 +56,7 @@ export class ProjectsComponent implements OnInit {
     }
 
 
-    saveProject(project: any): void {
+    saveProject(project: Project): void {
         if (!project.id) {
             this.createProject(project);
         } else {
@@ -72,6 +65,7 @@ export class ProjectsComponent implements OnInit {
     }
 
     createProject(project: Project): void {
+        project.id = guid();
         this._store.dispatch(new CreateProjectAction(project));
 
         // TODO: REFACTOR!

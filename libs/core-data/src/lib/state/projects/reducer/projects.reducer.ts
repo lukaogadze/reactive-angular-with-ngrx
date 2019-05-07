@@ -1,11 +1,12 @@
 import { ProjectsActions, ProjectsActionTypes } from '../projects.actions';
 import * as ProjectsStateMutators from "./projects-state.mutators";
 import { ProjectsState } from './projects-state';
+import { guid } from '../../../utils/guid';
 
 const initialState: ProjectsState = {
     projects: [
         {
-            id: '1',
+            id: guid(),
             title: 'Project One',
             details: 'This is a sample project',
             percentComplete: 20,
@@ -13,7 +14,7 @@ const initialState: ProjectsState = {
             customerId: undefined
         },
         {
-            id: '2',
+            id: guid(),
             title: 'Project Two',
             details: 'This is a sample project',
             percentComplete: 40,
@@ -21,7 +22,7 @@ const initialState: ProjectsState = {
             customerId: undefined
         },
         {
-            id: '3',
+            id: guid(),
             title: 'Project Three',
             details: 'This is a sample project',
             percentComplete: 100,
@@ -46,6 +47,9 @@ export function projectsReducer(state = initialState, action: ProjectsActions): 
 
         case ProjectsActionTypes.DeleteProject:
             return ProjectsStateMutators.deleteProject(state, action.payload);
+
+        case ProjectsActionTypes.ResetSelectedProject:
+            return ProjectsStateMutators.resetSelectedProject(state);
 
         default:
             return state;

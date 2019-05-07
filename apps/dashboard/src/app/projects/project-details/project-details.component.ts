@@ -9,11 +9,23 @@ import { Customer, Project } from '@workshop/core-data';
 export class ProjectDetailsComponent {
     originalTitle: string | undefined;
     selectedProject: Project | undefined;
-    @Output() saved = new EventEmitter();
-    @Output() cancelled = new EventEmitter();
+    @Output() readonly saved: EventEmitter<Project>;
+    @Output() readonly cancelled: EventEmitter<void>;
+
+    constructor() {
+        this.saved = new EventEmitter<Project>();
+        this.cancelled = new EventEmitter<void>();
+    }
+
+    save(project: Project) {
+        this.saved.emit(project)
+    }
+
+    cancel() {
+        this.cancelled.emit();
+    }
 
     @Input() readonly customers!: Customer[];
-
     @Input() set project(value: Project) {
         if (value) {
             this.originalTitle = value.title;

@@ -28,3 +28,10 @@ export function selectProject(state: ProjectsState, selectedProjectId: string): 
         selectedProjectId: selectedProjectId
     };
 }
+
+export function resetSelectedProject(state: ProjectsState): ProjectsState {
+    return {
+        ...state,
+        selectedProjectId: undefined
+    };
+}
