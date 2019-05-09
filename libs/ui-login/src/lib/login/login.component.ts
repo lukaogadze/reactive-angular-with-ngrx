@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@workshop/core-data';
+import { AuthService } from '../../../../core-data/src/lib/auth/auth.service';
 
 @Component({
     selector: 'ui-login',
@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit {
     chosenFilter = this.filters[Math.floor(Math.random() * this.filters.length)];
     userLogin = { email: '', password: '' };
 
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private readonly _router: Router,
+                private readonly _authService: AuthService) {
     }
 
     ngOnInit() {
@@ -42,9 +43,9 @@ export class LoginComponent implements OnInit {
 
     login(): void {
         // Store the token
-        this.authService.setToken('you_are_golden');
+        this._authService.setToken('you_are_golden');
         // Redirect to home
-        this.router.navigate(['']);
+        this._router.navigate(['']);
 
         // If we really wanted to log in...
         // this.authService.login(email, password)

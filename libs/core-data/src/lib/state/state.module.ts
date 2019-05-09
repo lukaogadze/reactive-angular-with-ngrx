@@ -9,15 +9,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { CustomersEffects } from './customers/customers.effects';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NxModule.forRoot(),
-    StoreModule.forRoot(reducers),
-    StoreDevtoolsModule.instrument({ maxAge: 10 }),
-    EffectsModule.forRoot([
-       CustomersEffects
-     ]),
-  ],
-  declarations: []
+    imports: [
+        CommonModule,
+        NxModule.forRoot(),
+        StoreModule.forRoot(reducers),
+        StoreDevtoolsModule.instrument({ maxAge: 10 }),
+        EffectsModule.forRoot([
+            CustomersEffects
+        ])
+    ],
+    declarations: []
 })
-export class StateModule { }
+export class StateModule {
+}

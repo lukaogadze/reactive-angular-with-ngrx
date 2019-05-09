@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Customer, Project } from '@workshop/core-data';
+import { Project } from '../../../../../../libs/core-data/src/lib/projects/project.model';
+import { Customer } from '../../../../../../libs/core-data/src/lib/customers/customer.model';
 
 @Component({
     selector: 'app-project-details',

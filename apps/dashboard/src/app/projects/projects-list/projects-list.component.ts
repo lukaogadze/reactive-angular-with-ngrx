@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Project } from '@workshop/core-data';
 
 import { LIST_ANIMATION } from './projects-list.animations';
+import { Project } from '../../../../../../libs/core-data/src/lib/projects/project.model';
 
 @Component({
     selector: 'app-projects-list',
@@ -10,7 +10,7 @@ import { LIST_ANIMATION } from './projects-list.animations';
     animations: [LIST_ANIMATION]
 })
 export class ProjectsListComponent implements OnInit {
-    @Input() readonly projects!: {[key: string]: Project | undefined};
+    @Input() readonly projects!: { [key: string]: Project | undefined };
     @Input() readonly: boolean | undefined;
     @Output() selected: EventEmitter<string>;
     @Output() deleted: EventEmitter<string>;

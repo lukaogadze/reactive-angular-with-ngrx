@@ -1,11 +1,5 @@
 import { Observable} from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import {
-    Customer,
-    Project,
-    NotificationsService,
-    CustomersService
-} from '@workshop/core-data';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../../../libs/core-data/src/lib/state';
 import {
@@ -17,6 +11,12 @@ import {
     UpdateProjectAction
 } from '../../../../../libs/core-data/src/lib/state/projects/projects.actions';
 import { guid } from '../../../../../libs/core-data/src/lib/utils/helpers';
+import { tap } from 'rxjs/operators';
+import { Project } from '../../../../../libs/core-data/src/lib/projects/project.model';
+import { Customer } from '../../../../../libs/core-data/src/lib/customers/customer.model';
+import { CustomersService } from '../../../../../libs/core-data/src/lib/customers/customers.service';
+import { ProjectsService } from '../../../../../libs/core-data/src/lib/projects/projects.service';
+import { NotificationsService } from '../../../../../libs/core-data/src/lib/notifications/notifications.service';
 
 
 
@@ -33,7 +33,8 @@ export class ProjectsComponent implements OnInit {
 
     constructor(private readonly _customerService: CustomersService,
                 private readonly _notificationsService: NotificationsService,
-                private readonly _store: Store<AppState>) {
+                private readonly _store: Store<AppState>,
+                private readonly _projectService: ProjectsService) {
     }
 
     ngOnInit() {
@@ -57,11 +58,13 @@ export class ProjectsComponent implements OnInit {
 
 
     saveProject(project: Project): void {
-        if (!project.id) {
-            this.createProject(project);
-        } else {
-            this.updateProject(project);
-        }
+        console.log(project);
+        this._projectService.all().pipe(tap(data => console.log(data))).subscribe();
+        // if (!project.id) {
+        //     this.createProject(project);
+        // } else {
+        //     this.updateProject(project);
+        // }
     }
 
     createProject(project: Project): void {

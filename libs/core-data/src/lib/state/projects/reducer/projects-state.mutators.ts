@@ -1,5 +1,5 @@
 import { ProjectsState } from './projects-state';
-import { Project } from '@workshop/core-data';
+import { Project } from '../../../projects/project.model';
 
 export function createProject(state: ProjectsState, newProject: Project): ProjectsState {
     const obj: any = {};

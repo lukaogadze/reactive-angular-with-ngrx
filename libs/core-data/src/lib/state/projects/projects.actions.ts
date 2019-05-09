@@ -1,4 +1,4 @@
-import { Project } from '@workshop/core-data';
+import { Project } from '../../projects/project.model';
 
 interface Action<T> {
     readonly type: string

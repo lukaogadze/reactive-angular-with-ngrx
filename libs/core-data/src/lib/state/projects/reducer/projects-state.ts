@@ -1,4 +1,4 @@
-import { Project } from '@workshop/core-data';
+import { Project } from '../../../projects/project.model';
 
 export interface ProjectsState {
     readonly projects: {[key: string]: Project | any},

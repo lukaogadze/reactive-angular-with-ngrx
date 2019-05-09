@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Project, ProjectsState } from '@workshop/core-data';
 import { keyValueStoreToArray } from '../../utils/helpers';
+import { ProjectsState } from './reducer/projects-state';
+import { Project } from '../../projects/project.model';
 
 const getProjectsFeatureState = createFeatureSelector<ProjectsState>('projects');
 
@@ -11,7 +12,10 @@ const p: Project = {
     details: '',
     percentComplete: 0,
     approved: false,
-    customerId: undefined
+    customerId: undefined,
+    completionDate: undefined,
+    startDate: undefined,
+    targetDate: "",
 };
 
 const emptyProject = () => ({...p});
