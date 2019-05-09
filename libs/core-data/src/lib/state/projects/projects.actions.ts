@@ -1,7 +1,11 @@
-import { Action } from '@ngrx/store';
 import { Project } from '@workshop/core-data';
 
-export const enum ProjectsActionTypes  {
+interface Action<T> {
+    readonly type: string
+    readonly payload: T
+}
+
+export const enum ProjectsActionTypes {
     CreateProject = "[Projects] Create Project",
     UpdateProject = "[Projects] Update Project",
     DeleteProject = "[Projects] Delete Project",
@@ -9,28 +13,29 @@ export const enum ProjectsActionTypes  {
     ResetSelectedProject = "[Projects] Reset Selected Project"
 }
 
-export class CreateProjectAction implements Action {
+export class CreateProjectAction implements Action<Project> {
     readonly type = ProjectsActionTypes.CreateProject;
-    constructor(public readonly payload: Project) {}
+    constructor(public readonly payload: Project) { }
 }
 
-export class UpdateProjectAction implements Action {
+export class UpdateProjectAction implements Action<Project> {
     readonly type = ProjectsActionTypes.UpdateProject;
-    constructor(public readonly payload: Project) {}
+    constructor(public readonly payload: Project) { }
 }
 
-export class DeleteProjectAction implements Action {
+export class DeleteProjectAction implements Action<string> {
     readonly type = ProjectsActionTypes.DeleteProject;
-    constructor(public readonly payload: string) {}
+    constructor(public readonly payload: string) { }
 }
 
-export class SelectProjectAction implements Action {
+export class SelectProjectAction implements Action<string> {
     readonly type = ProjectsActionTypes.SelectProject;
-    constructor(public readonly payload: string) {}
+    constructor(public readonly payload: string) { }
 }
 
-export class ResetSelectedProjectAction implements Action {
+export class ResetSelectedProjectAction implements Action<undefined> {
     readonly type = ProjectsActionTypes.ResetSelectedProject;
+    constructor(public readonly payload = undefined) {}
 }
 
 
@@ -40,3 +45,4 @@ export type ProjectsActions = CreateProjectAction
     | DeleteProjectAction
     | SelectProjectAction
     | ResetSelectedProjectAction;
+
