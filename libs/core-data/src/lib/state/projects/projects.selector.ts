@@ -5,7 +5,7 @@ import { keyValueStoreToArray } from '../../utils/helpers';
 const getProjectsFeatureState = createFeatureSelector<ProjectsState>('projects');
 
 
-const emptyProject: Project = {
+const p: Project = {
     id: undefined,
     title: '',
     details: '',
@@ -13,6 +13,8 @@ const emptyProject: Project = {
     approved: false,
     customerId: undefined
 };
+
+const emptyProject = () => ({...p});
 
 
 export const getProjectsKeyValueSelector = createSelector(
@@ -31,19 +33,18 @@ export const getSelectedProjectIdSelector = createSelector(
 );
 
 export const getSelectedProjectSelector = createSelector(
-    getProjectsFeatureState,
+    getProjectsKeyValueSelector,
     getSelectedProjectIdSelector,
-    (state, selectedProjectId) => {
+    (projects, selectedProjectId) => {
         if (selectedProjectId) {
-            const selectedProject = state.projects[selectedProjectId];
+            const selectedProject = projects[selectedProjectId];
             if (selectedProject) {
                 return selectedProject;
             } else {
-                return emptyProject;
+                return emptyProject();
             }
         } else {
-
-            return emptyProject;
+            return emptyProject();
         }
     }
 );
