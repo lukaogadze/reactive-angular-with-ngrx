@@ -1,5 +1,5 @@
 import { Observable} from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../../../libs/core-data/src/lib/state';
 import {
@@ -16,6 +16,7 @@ import { Project } from '../../../../../libs/core-data/src/lib/projects/project.
 import { Customer } from '../../../../../libs/core-data/src/lib/customers/customer.model';
 import { CustomersService } from '../../../../../libs/core-data/src/lib/customers/customers.service';
 import { NotificationsService } from '../../../../../libs/core-data/src/lib/notifications/notifications.service';
+import { takeWhile } from 'rxjs/operators';
 
 
 
@@ -25,7 +26,8 @@ import { NotificationsService } from '../../../../../libs/core-data/src/lib/noti
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
+    private _componentIsActive!: boolean
     projects$!: Observable<ReadonlyArray<Project>>;
     customers$: Observable<Customer[]> | undefined;
     currentProject$: Observable<Project | undefined> | undefined;
@@ -37,12 +39,14 @@ export class ProjectsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._componentIsActive = true;
         this.projects$ = this._store.pipe(select(getProjectArraySelector));
         this.currentProject$ = this._store.pipe(select(getSelectedProjectSelector));
         this.errorMessage$ = this._store.pipe(select(getErrorMessageSelector));
         this.getCustomers();
         this.getProjects();
-        this.errorMessage$.subscribe(message => {
+
+        this.errorMessage$.pipe(takeWhile(() => this._componentIsActive)).subscribe(message => {
             if (message) {
                 this._notificationsService.emit(message);
             }
@@ -100,6 +104,10 @@ export class ProjectsComponent implements OnInit {
 
     private getProjects() {
         this._store.dispatch(new LoadProjectsAction());
+    }
+
+    ngOnDestroy(): void {
+        this._componentIsActive = false;
     }
 }
 

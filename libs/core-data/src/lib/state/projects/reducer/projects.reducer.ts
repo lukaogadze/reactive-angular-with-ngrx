@@ -22,8 +22,11 @@ export function projectsReducer(state = initialState, action: ProjectsActions): 
         case ProjectsActionTypes.SelectProject:
             return ProjectsStateMutators.selectProject(state, action.payload);
 
-        case ProjectsActionTypes.CreateProject:
-            return ProjectsStateMutators.createProject(state, action.payload);
+        case ProjectsActionTypes.ProjectCreated:
+            return ProjectsStateMutators.projectCreated(state, action.payload);
+
+        case ProjectsActionTypes.ProjectFailedToCreate:
+            return ProjectsStateMutators.projectFailedToCreate(state, action.payload);
 
         case ProjectsActionTypes.UpdateProject:
             return ProjectsStateMutators.updateProject(state, action.payload);

@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ProjectsService } from '../../projects/projects.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { ProjectsActionTypes, ProjectsFailedToLoadAction, ProjectsLoadedAction } from './projects.actions';
+import {
+    CreateProjectAction, ProjectCreatedAction, ProjectFailedToCreateAction,
+    ProjectsActionTypes,
+    ProjectsFailedToLoadAction,
+    ProjectsLoadedAction
+} from './projects.actions';
 import { arrayToKeyValueStore } from '../../utils/helpers';
 import { of } from 'rxjs';
 
@@ -18,6 +23,17 @@ export class ProjectsEffects {
             this._projectsService.all().pipe(
                 map(projects => new ProjectsLoadedAction(arrayToKeyValueStore(projects as any))),
                 catchError((err: string) => of(new ProjectsFailedToLoadAction(err)))
+            )
+        )
+    );
+
+    @Effect()
+    readonly createProject$ = this._actions.pipe(
+        ofType(ProjectsActionTypes.CreateProject),
+        mergeMap((action: CreateProjectAction) =>
+            this._projectsService.create(action.payload).pipe(
+                map(project => new ProjectCreatedAction(project)),
+                catchError(err => of(new ProjectFailedToCreateAction(err)))
             )
         )
     );

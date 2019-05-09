@@ -93,7 +93,7 @@
   ],
   "projects": [
     {
-      "id": "5",
+      "id": "B33BC9JK-82F7-0177-1342-018471E287D1",
       "title": "Project Five",
       "details": "This is a sample project",
       "percentComplete": 100,
@@ -102,6 +102,15 @@
       "targetDate": "2018-10-26T07:00:00.000Z",
       "completionDate": null,
       "customerId": "1"
+    },
+    {
+      "id": "D33BC0FA-00B7-4055-6971-958471D387E5",
+      "title": "Project Three",
+      "details": "This is sample Project",
+      "percentComplete": 61,
+      "approved": true,
+      "customerId": "3",
+      "targetDate": ""
     }
   ]
 }

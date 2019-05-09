@@ -10,6 +10,8 @@ export const enum ProjectsActionTypes {
     ProjectsLoaded = "[Projects] Projects Loaded",
     ProjectsFailedToLoad = "[Projects] Projects Failed ToLoad",
     CreateProject = "[Projects] Create Project",
+    ProjectCreated = "[Projects] Project Created",
+    ProjectFailedToCreate = "[Projects] Project Failed To Create",
     UpdateProject = "[Projects] Update Project",
     DeleteProject = "[Projects] Delete Project",
     SelectProject = "[Projects] Select Project",
@@ -32,13 +34,19 @@ export class ProjectsFailedToLoadAction implements Action<string> {
 }
 
 
-
-
-
-
 export class CreateProjectAction implements Action<Project> {
     readonly type = ProjectsActionTypes.CreateProject;
     constructor(public readonly payload: Project) { }
+}
+
+export class ProjectCreatedAction implements Action<Project> {
+    readonly type = ProjectsActionTypes.ProjectCreated;
+    constructor(public readonly payload: Project) { }
+}
+
+export class ProjectFailedToCreateAction implements Action<string> {
+    readonly type = ProjectsActionTypes.ProjectFailedToCreate;
+    constructor(public readonly payload: string) { }
 }
 
 export class UpdateProjectAction implements Action<Project> {
@@ -67,6 +75,8 @@ export type ProjectsActions =
     | ProjectsLoadedAction
     | ProjectsFailedToLoadAction
     | CreateProjectAction
+    | ProjectCreatedAction
+    | ProjectFailedToCreateAction
     | UpdateProjectAction
     | DeleteProjectAction
     | SelectProjectAction

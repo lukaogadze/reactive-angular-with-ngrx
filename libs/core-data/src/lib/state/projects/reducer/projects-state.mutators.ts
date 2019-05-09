@@ -1,6 +1,25 @@
 import { ProjectsState } from './projects-state';
 import { Project } from '../../../projects/project.model';
 
+export function projectFailedToCreate(state: ProjectsState, errorMessage: string): ProjectsState {
+    return {
+        ...state,
+        errorMessage: errorMessage
+    };
+}
+
+
+export function projectCreated(state: ProjectsState, createdProject: Project): ProjectsState {
+    const obj: any = {};
+    obj[(createdProject.id as any)] = createdProject;
+    return {
+        ...state,
+        errorMessage: undefined,
+        projects: {...state.projects, ...obj}
+    };
+}
+
+
 export function projectsLoaded(state: ProjectsState, projecrs: { [key: string]: Project | any }): ProjectsState {
     return {
         ...state,
@@ -17,14 +36,6 @@ export function projectsFailedToLoad(state: ProjectsState, errorMessage: string)
     }
 }
 
-export function createProject(state: ProjectsState, newProject: Project): ProjectsState {
-    const obj: any = {};
-    obj[(newProject.id as any)] = newProject;
-    return {
-        ...state,
-        projects: {...state.projects, ...obj}
-    };
-}
 
 export function updateProject(state: ProjectsState, updatedProject: Project): ProjectsState {
     const projectToUpdate = state.projects[updatedProject.id!];
