@@ -10,6 +10,7 @@ import {
 } from './projects.actions';
 import { arrayToKeyValueStore } from '../../utils/helpers';
 import { of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class ProjectsEffects {
@@ -22,7 +23,7 @@ export class ProjectsEffects {
         mergeMap(() =>
             this._projectsService.all().pipe(
                 map(projects => new ProjectsLoadedAction(arrayToKeyValueStore(projects as any))),
-                catchError((err: string) => of(new ProjectsFailedToLoadAction(err)))
+                catchError((err: HttpErrorResponse) => of(new ProjectsFailedToLoadAction(err.message)))
             )
         )
     );
@@ -33,7 +34,7 @@ export class ProjectsEffects {
         mergeMap((action: CreateProjectAction) =>
             this._projectsService.create(action.payload).pipe(
                 map(project => new ProjectCreatedAction(project)),
-                catchError(err => of(new ProjectFailedToCreateAction(err)))
+                catchError((err: HttpErrorResponse) => of(new ProjectFailedToCreateAction(err.message)))
             )
         )
     );

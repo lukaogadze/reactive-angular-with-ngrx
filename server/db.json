@@ -111,6 +111,15 @@
       "approved": true,
       "customerId": "3",
       "targetDate": ""
+    },
+    {
+      "id": "307AB793-6895-4757-9E95-963046D67B8A",
+      "title": "Project One",
+      "details": "This is a sample Project",
+      "percentComplete": 100,
+      "approved": true,
+      "customerId": "4",
+      "targetDate": ""
     }
   ]
 }
