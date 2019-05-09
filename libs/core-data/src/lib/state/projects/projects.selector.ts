@@ -21,7 +21,7 @@ const p: Project = {
 const emptyProject = () => ({...p});
 
 
-export const getProjectsKeyValueSelector = createSelector(
+export const getProjectsSelector = createSelector(
     getProjectsFeatureState,
     state => state.projects
 );
@@ -37,7 +37,7 @@ export const getSelectedProjectIdSelector = createSelector(
 );
 
 export const getSelectedProjectSelector = createSelector(
-    getProjectsKeyValueSelector,
+    getProjectsSelector,
     getSelectedProjectIdSelector,
     (projects, selectedProjectId) => {
         if (selectedProjectId) {
