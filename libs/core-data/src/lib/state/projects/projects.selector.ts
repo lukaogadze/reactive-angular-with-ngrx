@@ -52,3 +52,8 @@ export const getSelectedProjectSelector = createSelector(
         }
     }
 );
+
+export const getErrorMessageSelector = createSelector(
+    getProjectsFeatureState,
+    state => state.errorMessage
+);

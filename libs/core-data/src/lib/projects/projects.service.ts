@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Project } from './project.model';
@@ -26,11 +26,11 @@ export class ProjectsService {
         return `${this.getUrl()}/${id}`;
     }
 
-    all() {
-        return this.http.get<Project[]>(this.getUrl());
+    all(): Observable<ReadonlyArray<Project>> {
+        return this.http.get<ReadonlyArray<Project>>(this.getUrl());
     }
 
-    load(id: string) {
+    load(id: string): Observable<Project> {
         return this.http.get<Project>(this.getUrlForId(id));
     }
 
@@ -52,8 +52,8 @@ export class ProjectsService {
             );
     }
 
-    create(project: Project) {
-        return this.http.post(this.getUrl(), project);
+    create(project: Project): Observable<Project> {
+        return this.http.post<Project>(this.getUrl(), project);
     }
 
     update(project: Project) {

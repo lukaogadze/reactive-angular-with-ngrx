@@ -6,12 +6,35 @@ interface Action<T> {
 }
 
 export const enum ProjectsActionTypes {
+    LoadProjects = "[Projects] Load Projects",
+    ProjectsLoaded = "[Projects] Projects Loaded",
+    ProjectsFailedToLoad = "[Projects] Projects Failed ToLoad",
     CreateProject = "[Projects] Create Project",
     UpdateProject = "[Projects] Update Project",
     DeleteProject = "[Projects] Delete Project",
     SelectProject = "[Projects] Select Project",
     ResetSelectedProject = "[Projects] Reset Selected Project"
 }
+
+export class LoadProjectsAction implements Action<undefined> {
+    readonly type = ProjectsActionTypes.LoadProjects;
+    constructor(public readonly payload = undefined) {}
+}
+
+export class ProjectsLoadedAction implements Action<{[key: string]: Project | any}> {
+    readonly type = ProjectsActionTypes.ProjectsLoaded;
+    constructor(public readonly payload: {[key: string]: Project | any}) { }
+}
+
+export class ProjectsFailedToLoadAction implements Action<string> {
+    readonly type = ProjectsActionTypes.ProjectsFailedToLoad;
+    constructor(public readonly payload: string) { }
+}
+
+
+
+
+
 
 export class CreateProjectAction implements Action<Project> {
     readonly type = ProjectsActionTypes.CreateProject;
@@ -40,7 +63,10 @@ export class ResetSelectedProjectAction implements Action<undefined> {
 
 
 
-export type ProjectsActions = CreateProjectAction
+export type ProjectsActions =
+    | ProjectsLoadedAction
+    | ProjectsFailedToLoadAction
+    | CreateProjectAction
     | UpdateProjectAction
     | DeleteProjectAction
     | SelectProjectAction

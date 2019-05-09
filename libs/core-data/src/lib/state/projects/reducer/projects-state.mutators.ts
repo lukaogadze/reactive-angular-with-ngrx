@@ -1,6 +1,22 @@
 import { ProjectsState } from './projects-state';
 import { Project } from '../../../projects/project.model';
 
+export function projectsLoaded(state: ProjectsState, projecrs: { [key: string]: Project | any }): ProjectsState {
+    return {
+        ...state,
+        errorMessage: undefined,
+        projects: {...projecrs}
+    };
+}
+
+export function projectsFailedToLoad(state: ProjectsState, errorMessage: string): ProjectsState {
+    return {
+        ...state,
+        projects: {},
+        errorMessage: errorMessage
+    }
+}
+
 export function createProject(state: ProjectsState, newProject: Project): ProjectsState {
     const obj: any = {};
     obj[(newProject.id as any)] = newProject;
